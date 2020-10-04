@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+unordered_map<string,int> umap;
+vector<int> vis;
+bool fun(string& s, int idx){
+
+    if(vis[idx] != -1)
+        return vis[idx];
+
+    if(idx == (int)s.size())
+        return vis[idx] = 1;
+
+    string str = "";
+    bool res = 0;
+    for(int i=idx;i<(int)s.size();i++){
+        str+=s[i];
+        string temp = str;
+        sort(temp.begin(),temp.end());
+        if(umap.find(temp)!=umap.end())
+            res = res || fun(s, i + 1);
+    }
+
+    return vis[idx] = res;
+}
+int main() {
+
+    string s1;
+    cin>>s1;
+    int n;
+    cin>>n;
+    while(n--){
+        string s3;
+        cin>>s3;
+        sort(s3.begin(),s3.end());
+        umap[s3]++;
+    }
+    vis.resize((int)s1.size() + 1, -1);
+
+    if(fun(s1,0))
+        cout<<"YES"<<endl;
+    else
+        cout<<"NO"<<endl;
+}
